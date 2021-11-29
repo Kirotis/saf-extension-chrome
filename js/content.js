@@ -233,9 +233,9 @@ const code = `
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 const socket = io("${backendURL}");
 
-const getPlayer = () => document.querySelector("#movie_player")
+const getPlayer = () => document.querySelector("#movie_player");
 
-const params = {}
+const params = {};
 
 // socket.on("connect", () => {
 //     const player = document.querySelector("#container")
@@ -243,53 +243,53 @@ const params = {}
 // });
 
 socket.on("setPause", (value) => {
-    const player = getPlayer()
+    const player = getPlayer();
     params.isPause = value;
     value ? player.pauseVideo() : player.playVideo();
-})
+});
 socket.on("setMute", (value) => {
-    const player = getPlayer()
+    const player = getPlayer();
     params.isMuted = value;
     value ? player.mute() : player.unMute();
-})
+});
 socket.on("setVolume", (value) => {
     params.volume = value;
     getPlayer().setVolume(value);
-})
+});
 socket.on("setHref", (href) => {
     params.activeUrl = href;
     // window.location.assign("https://www.youtube.com/watch?v=" + href)
     const player = getPlayer();
-    player.cueVideoById(href)
-    player.playVideo()
-})
+    player.cueVideoById(href);
+    player.playVideo();
+});
 socket.on("setFullScreen", (value) => {
     params.fullScreen = value;
     getPlayer().toggleFullscreen();
-})
+});
 socket.on("setSubtitles", (value) => {
     params.subtitles = value;
     getPlayer().toggleSubtitles();
-})
+});
 socket.on("roomWasDeleted", () => {
     this.$router.push("/");
-})
+});
 socket.on("setNextMoment", () => {
     const seconds = getPlayer().getMediaReferenceTime() + 16;
     setYTTime(seconds);
-})
+});
 socket.on("setPreviousMoment", () => {
     const seconds = getPlayer().getMediaReferenceTime() - 16;
     setYTTime(seconds);
-})
+});
 socket.on("setNextVideo", () => {
     getPlayer().nextVideo();
-})
-socket.on("setPreviousVideo", () => {
-    history.back()
-})
+});
+// socket.on("setPreviousVideo", () => {
+//     history.back()
+// })
 
-const setYTTime = seconds => getPlayer().seekTo(seconds, true);
+const setYTTime = (seconds) => getPlayer().seekTo(seconds, true);
 
 socket.emit("createRoom", "${roomName}");
 `;
