@@ -7,9 +7,13 @@
     "default_popup": "popup.html"
   },
   "description": "SAF Extension for Chrome",
+  "background": {
+    "persistent": false,
+    "scripts": ["js/background.js"]
+  },
   "content_scripts": [{
     "matches": ["https://*.youtube.com/*"],
-    "js": ["react-dom.min.js", "popup.js"]
+    "js": ["js/content.js"]
   }],
   "permissions": [
     "http://192.168.0.100/*",

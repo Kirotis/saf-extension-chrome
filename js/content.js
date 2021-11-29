@@ -222,28 +222,27 @@ const animals = [
     "Worm",
     "Wren",
     "Yak",
-    "Zebra"
-]
+    "Zebra",
+];
 
-const roomName = animals[Math.floor(Math.random() * (animals.length - 0 + 1))]
+const roomName = "Chrome"; // animals[Math.floor(Math.random() * (animals.length - 0 + 1))];
+
+const backendURL = "http://10.10.130.111:3100"; // "http://192.168.0.100:3100"
 
 const code = `
 import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-const socket = io("http://192.168.0.100:3100");
+const socket = io("${backendURL}");
 
 const getPlayer = () => document.querySelector("#movie_player")
 
 const params = {}
-socket.on("connect", () => {
-    const player = document.querySelector("#container")
 
-    console.log(player);
-});
+// socket.on("connect", () => {
+//     const player = document.querySelector("#container")
+//     console.log(player);
+// });
 
 socket.on("setPause", (value) => {
-    console.log("setPause", value)
-    const player = getPlayer()
-    console.log("player", player)
     params.isPause = value;
     value ? player.pauseVideo() : player.playVideo();
 })
@@ -258,7 +257,10 @@ socket.on("setVolume", (value) => {
 })
 socket.on("setHref", (href) => {
     params.activeUrl = href;
-    window.location.assign("https://www.youtube.com/watch?v=" + href)
+    // window.location.assign("https://www.youtube.com/watch?v=" + href)
+    const player = getPlayer();
+    player.cueVideoById(href)
+    player.playVideo()
 })
 socket.on("setFullScreen", (value) => {
     params.fullScreen = value;
@@ -288,11 +290,23 @@ socket.on("setPreviousVideo", () => {
 
 const setYTTime = seconds => getPlayer().seekTo(seconds, true);
 
-socket.emit("createRoom", "${'Chrome'}");
-`
+socket.emit("createRoom", "${roomName}");
+`;
 
-const script = document.createElement('script');
-script.type = "module"
+chrome.runtime.sendMessage({
+    from: "content",
+    subject: "setRoomName",
+    roomName,
+});
+
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
+    if (msg.from === "popup" && msg.subject === "DOMInfo") {
+        response(roomName);
+    }
+});
+
+const script = document.createElement("script");
+script.type = "module";
 script.textContent = code;
 (document.head || document.documentElement).appendChild(script);
 script.remove();
