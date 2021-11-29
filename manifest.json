@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "SAF Extension",
+  "version": "0.01",
+  "browser_action": {
+    "default_title": "SAF Extension for Chrome",
+    "default_popup": "popup.html"
+  },
+  "description": "SAF Extension for Chrome",
+  "content_scripts": [{
+    "matches": ["https://*.youtube.com/*"],
+    "js": ["react-dom.min.js", "popup.js"]
+  }],
+  "permissions": [
+    "http://192.168.0.100/*",
+    "activeTab"
+  ]
+}
