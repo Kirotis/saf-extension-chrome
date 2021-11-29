@@ -1,6 +1,5 @@
-const setDOMInfo = (roomName) => {
-    document.getElementById("roomName").textContent = roomName;
-};
+const setDOMInfo = (roomName) =>
+    (document.getElementById("roomName").textContent = roomName);
 
 window.addEventListener("DOMContentLoaded", () => {
     chrome.tabs.query(

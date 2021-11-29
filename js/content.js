@@ -243,6 +243,7 @@ const params = {}
 // });
 
 socket.on("setPause", (value) => {
+    const player = getPlayer()
     params.isPause = value;
     value ? player.pauseVideo() : player.playVideo();
 })
