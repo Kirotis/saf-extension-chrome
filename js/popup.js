@@ -16,3 +16,20 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     );
 });
+
+// const fn = () => {
+//     return(
+//         <section class="main">
+//             <h2 class="main__title">SAF</h2>
+//             <span class="main__room-name">
+//                 Room name:
+//                 <h3 id="roomName">Неизвестно</h3>
+//             </span>
+//         </section>
+//     )
+// }
+// console.log(' :>> ', ReactDOM.render);
+// ReactDOM.render(
+//     fn(),
+//     document.getElementById("root")
+// );
